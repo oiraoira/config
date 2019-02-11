@@ -1,0 +1,32 @@
+#!/usr/bin/env python
+"""
+
+"""
+
+__author__ = "Georgi Pavlovski"
+__copyright__ = "(c) 20?? Symetrica Security Ltd."
+__email__ = "gosha@symetrica.com"
+
+
+import sys
+if sys.version_info[0] != 3 or sys.version_info[1] < 6:
+    print("This script requires Python version >= 3.6")
+    sys.exit(1)
+
+import os
+import argparse
+
+
+def main(args):
+
+    return 0
+
+
+if __name__ == '__main__':
+    aparser = argparse.ArgumentParser(description=__doc__,
+            formatter_class=argparse.RawDescriptionHelpFormatter)
+    args = aparser.parse_args()
+    sys.exit(main(args))
+
+
+
