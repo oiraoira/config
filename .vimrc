@@ -10,7 +10,7 @@ set shiftwidth=4
 set textwidth=88
 if has("gui_running")
     set lines=80
-    set columns=89
+    set columns=88
 endif
 set matchtime=20
 set tags=./tags
