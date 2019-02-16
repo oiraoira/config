@@ -1,6 +1,5 @@
 set nocompatible
-execute pathogen#infect('bundle/{}', '~/src/vim/bundle/{}')
-"source $userprofile/vimfiles/autotag.vim
+execute pathogen#infect('bundle/{}')
 
 set nowrap
 set tabstop=8
@@ -9,14 +8,15 @@ set softtabstop=4
 set shiftwidth=4
 set textwidth=88
 if has("gui_running")
-    set lines=80
-    set columns=88
+    set lines=65
+    set columns=89
 endif
 set matchtime=20
 set tags=./tags
 set tags+=/mnt/Data2/Sandbox/Trunk/tags
 set tags+=/mnt/Data2/Sandbox/Python/gosha/tags
 set autoindent
+set backspace=2
 filetype indent on
 set guifont=Monospace\ 8
 syntax on
