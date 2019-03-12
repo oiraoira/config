@@ -128,10 +128,10 @@ alias sandbox="cd /mnt/Data2/Sandbox"
 alias replay="cd /mnt/Data2/Replay"
 alias data2="cd /mnt/Data2"
 alias logless="find `ls -1trd */ | tail -1` -name Log.xml -exec less {} \;"
-export CODE="/mnt/Scratch/Sandbox.git/DeepDiscovery"
+export CODE="/mnt/Data2/DeepDiscovery"
 export PYTHONPATH="/mnt/Data2/Sandbox/Python"
 export PYDEV="/mnt/Data2/Sandbox/Python/gosha"
-export SYMALCH="/mnt/Scratch/Sandbox.git/DeepDiscovery/Common/Scripts/SymAlgoCheck/src/symalgocheck"
+export SYMALCH="/mnt/Data2/DeepDiscovery/Common/Scripts/SymAlgoCheck/src/symalgocheck"
 
 # Scripts
 export PATH="/home/gosha2/bin:$PATH"
