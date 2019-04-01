@@ -122,7 +122,7 @@ if ! shopt -oq posix; then
 fi
 
 #Coding stuff
-alias py="/home/gosha2/anaconda3/bin/python"
+alias py="/home/gosha2/mcpy/bin/python"
 alias pydev="cd /mnt/Data2/Sandbox/Python/gosha"
 alias sandbox="cd /mnt/Data2/Sandbox"
 alias replay="cd /mnt/Data2/Replay"
@@ -153,24 +153,22 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # wine
-export WINEPREFIX=$HOME/winedotnet45
+export WINEPREFIX=$HOME/winedotnet46
 
 
-# added by Anaconda3 2018.12 installer
+# added by Miniconda3 4.5.12 installer
 # >>> conda init >>>
 # !! Contents within this block are managed by 'conda init' !!
-#__conda_setup="$(CONDA_REPORT_ERRORS=false '/home/gosha2/anaconda37/bin/conda' shell.bash hook 2> /dev/null)"
-#if [ $? -eq 0 ]; then
-#    \eval "$__conda_setup"
-#else
-#    if [ -f "/home/gosha2/anaconda37/etc/profile.d/conda.sh" ]; then
-#        . "/home/gosha2/anaconda37/etc/profile.d/conda.sh"
-#        CONDA_CHANGEPS1=false conda activate base
-#    else
-#        \export PATH="/home/gosha2/anaconda37/bin:$PATH"
-#    fi
-#fi
-#unset __conda_setup
+__conda_setup="$(CONDA_REPORT_ERRORS=false '/home/gosha2/mcpy/bin/conda' shell.bash hook 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    \eval "$__conda_setup"
+else
+    if [ -f "/home/gosha2/mcpy/etc/profile.d/conda.sh" ]; then
+        . "/home/gosha2/mcpy/etc/profile.d/conda.sh"
+        CONDA_CHANGEPS1=false conda activate base
+    else
+        \export PATH="/home/gosha2/mcpy/bin:$PATH"
+    fi
+fi
+unset __conda_setup
 # <<< conda init <<<
-
-export PATH="/home/gosha2/anaconda3/bin:$PATH"
