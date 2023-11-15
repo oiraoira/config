@@ -34,8 +34,10 @@ let g:easytags_dynamic_files = 2
 let g:jedi#use_tabs_not_buffers = 0
 let g:jedi#popup_on_dot = 0
 let g:python_highlight_all = 1
+let g:airline_extensions = ['branch', 'tabline']
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'default'
+let g:airline#extensions#branch#enabled = 1
 let g:airline_theme = 'luna'
 let g:ariline_powerline_fonts = 1
 
