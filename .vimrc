@@ -37,6 +37,7 @@ let g:python_highlight_all = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'default'
 let g:airline_theme = 'luna'
+let g:ariline_powerline_fonts = 1
 
 "if has('gui_running')
 "    colorscheme default
