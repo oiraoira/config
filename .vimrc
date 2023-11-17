@@ -51,6 +51,9 @@ if &diff
     colorscheme evening
 endif
 
+hi clear SpellBad
+hi SpellBad cterm=underline ctermfg=red
+
 au BufNewFile *.py 0r ~/.vim/python.skel
 au BufNewFile *.h 0r ~/.vim/chead.skel
 au BufNewFile *.cpp 0r ~/.vim/cprog.skel
