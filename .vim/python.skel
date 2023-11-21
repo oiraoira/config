@@ -1,32 +1,61 @@
 #!/usr/bin/env python
-"""
+"""This script/module does ....
 
 """
-
-__author__ = "Georgi Pavlovski"
-__copyright__ = "(c) 20?? Symetrica Security Ltd."
-__email__ = "gosha@symetrica.com"
-
 
 import sys
-if sys.version_info[0] != 3 or sys.version_info[1] < 6:
-    print("This script requires Python version >= 3.6")
+
+if sys.version_info[0] != 3 or sys.version_info[1] < 9:
+    print("This script requires Python version >= 3.9")
     sys.exit(1)
 
 import os
 import argparse
+import logging
+
+__author__ = "Georgi Pavlovski"
+__copyright__ = "(c) 20?? Flight Data Services L3Harris"
+__email__ = "georgi.pavlovski@l3harris.com"
 
 
-def main(args):
+def main(args: argparse.Namespace) -> int:
+    """Executes...
+
+    Args:
+        args:  Parsed command line arguments
+
+    Returns:
+        Interger error code
+    """
+    log_fmt = "%(asctime)s %(levelname)s %(name)s %(message)s"
+    if args.log:
+        logging.basicConfig(
+            filename=args.log,
+            level=args.verbose,
+            format=log_fmt,
+            force=True,
+        )
+    else:
+        logging.basicConfig(
+            stream=sys.stderr,
+            level=args.verbose,
+            format=log_fmt,
+            force=True,
+        )
 
     return 0
 
 
-if __name__ == '__main__':
-    aparser = argparse.ArgumentParser(description=__doc__,
-            formatter_class=argparse.RawDescriptionHelpFormatter)
+if __name__ == "__main__":
+    aparser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    aparser.add_argument(
+        "-v",
+        "--verbose",
+        default="INFO",
+        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+    )
+    aparser.add_argument("-l", "--log", default=None, help="Location of log file")
     args = aparser.parse_args()
     sys.exit(main(args))
-
-
-
