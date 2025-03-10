@@ -35,11 +35,9 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-export TERM='xterm-256color'
-
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color) color_prompt=yes;;
+    xterm-color|alacritty|*-256color) color_prompt=yes;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -58,20 +56,20 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+_parse_git_branch() {
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
 if [ "$color_prompt" = yes ]; then
-#    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$(_parse_git_branch)\$ '
 else
-#     PS1="\u@\h:\W>\[$(tput sgr0)\]"
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
 unset color_prompt force_color_prompt
 
-# promt twak
-
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
-xterm*|rxvt*)
+xterm*|alacritty|rxvt*)
     PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
     ;;
 *)
@@ -81,7 +79,7 @@ esac
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
+    alias ls='ls -p --color=auto'
     #alias dir='dir --color=auto'
     #alias vdir='vdir --color=auto'
 
@@ -95,9 +93,17 @@ fi
 
 # some more ls aliases
 alias ll='ls -l'
-alias lt='ls -ltr'
 #alias la='ls -A'
 #alias l='ls -CF'
+alias lt='ls -ltr'
+
+# git shorthand
+alias gst='git status -sb'
+alias glog='git log --date-order --pretty="format:%C(yellow)%h%Cblue%d%Creset %s %C(white) %an, %ar%Creset"'
+alias gglog='glog --graph'
+alias ga='git add'
+alias gc='git commit -m'
+alias gd='git diff'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -106,10 +112,6 @@ alias lt='ls -ltr'
 
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
-fi
-
-if [ -n "$DISPLAY" ]; then
-    xset b off
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -122,55 +124,14 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-
-#Coding stuff
-alias py="/home/gosha2/mcpy/bin/python"
-alias pydev="cd /mnt/Data2/Sandbox/Python/gosha"
-alias sandbox="cd /mnt/Data2/Sandbox"
-alias replay="cd /mnt/Data2/Replay"
-alias data2="cd /mnt/Data2"
-alias logless="find `ls -1trd */ | tail -1` -name Log.xml -exec less {} \;"
-export CODE="/mnt/Data2/DeepDiscovery"
-export PYTHONPATH="/mnt/Data2/Sandbox/Python"
-export PYDEV="/mnt/Data2/Sandbox/Python/gosha"
-export SYMALCH="/mnt/Data2/DeepDiscovery/Common/Scripts/SymAlgoCheck/src/symalgocheck"
-
-# Scripts
-export PATH="/home/gosha2/bin:$PATH"
-
-# Anaconda3
-# /home/gosha2/anaconda37/bin:$PATH"
-
-alias downloads="cd /mnt/Data2/Downloads"
-
-alias rsml="/mnt/Data2/Sandbox/Python/gosha/reviewsml.sh"
-alias idSummary="py $gpy/snippets/idSummary.py"
-
-# Disable caps lock
-setxkbmap -option caps:escape
-
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# wine
-export WINEPREFIX=$HOME/winedotnet46
-
-
-# added by Miniconda3 4.5.12 installer
-# >>> conda init >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$(CONDA_REPORT_ERRORS=false '/home/gosha2/mcpy/bin/conda' shell.bash hook 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    \eval "$__conda_setup"
-else
-    if [ -f "/home/gosha2/mcpy/etc/profile.d/conda.sh" ]; then
-        . "/home/gosha2/mcpy/etc/profile.d/conda.sh"
-        CONDA_CHANGEPS1=false conda activate base
-    else
-        \export PATH="/home/gosha2/mcpy/bin:$PATH"
-    fi
+PATH="$HOME/.local/bin:$PATH"
+alias pydsci=/mnt/dvc/dsprojects/base_docker/pydsci.sh
+alias bat=batcat
+source /mnt/dvc/dsprojects/pyenv/base/bin/activate
+# otherwise alacritty term 
+if [ "$TERM" == "alacritty" ]; then
+    export TERM=xterm-256color
 fi
-unset __conda_setup
-# <<< conda init <<<
+
+export MANPAGER="sh -c 'col -bx | batcat -l man -p'"
+export MANROFFOPT="-c"
