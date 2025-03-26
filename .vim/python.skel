@@ -1,52 +1,30 @@
 #!/usr/bin/env python
-"""This script/module does ....
+"""This script/module...
 
 """
 
 import sys
 
-if sys.version_info[0] != 3 or sys.version_info[1] < 9:
-    print("This script requires Python version >= 3.9")
-    sys.exit(1)
-
 import os
 import argparse
 import logging
 
-__author__ = "Georgi Pavlovski"
-__copyright__ = "(c) 20?? Flight Data Services L3Harris"
-__email__ = "georgi.pavlovski@l3harris.com"
+LOG = logging.getLogger(__name__)
 
 
-def main(args: argparse.Namespace) -> int:
+def main(args: argparse.Namespace) -> None:
     """Executes...
 
     Args:
         args:  Parsed command line arguments
 
     Returns:
-        Interger error code
+        None
     """
-    log_fmt = "%(asctime)s %(levelname)s %(name)s %(message)s"
-    if args.log:
-        logging.basicConfig(
-            filename=args.log,
-            level=args.verbose,
-            format=log_fmt,
-            force=True,
-        )
-    else:
-        logging.basicConfig(
-            stream=sys.stderr,
-            level=args.verbose,
-            format=log_fmt,
-            force=True,
-        )
-
-    return 0
 
 
 if __name__ == "__main__":
+    # argparse
     aparser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
@@ -56,6 +34,22 @@ if __name__ == "__main__":
         default="INFO",
         choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
     )
-    aparser.add_argument("-l", "--log", default=None, help="Location of log file")
     args = aparser.parse_args()
-    sys.exit(main(args))
+
+    # setup logging
+    log_fmt = "%(asctime)s %(levelname)s %(name)s %(message)s"
+    logging.basicConfig(
+        stream=sys.stderr,
+        level=args.verbose,
+        format=log_fmt,
+        force=True,
+    )
+
+    # run main and return exit code
+    try:
+        main(args)
+        LOG.info("DONE")
+        sys.exit(0)
+    except Exception as err:
+        LOG.exception(err)
+        sys.exit(1)
